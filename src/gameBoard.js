@@ -1,5 +1,5 @@
 function gameBoard() {
-	let board = Array.from({ length: 10 }, () => Array.from({ length: 10 }));
+	const board = Array.from({ length: 10 }, () => Array.from({ length: 10 }));
 
 	function placeShip(ship, x, y, isVertical) {
 		if (typeof x !== "number") throw new Error("x must be a number");
@@ -33,11 +33,24 @@ function gameBoard() {
 		}
 	}
 
+	function receiveAttack(x, y) {
+		if (typeof x !== "number") throw new Error("x must be a number");
+		if (typeof y !== "number") throw new Error("y must be a number");
+		if (x < 0 || x > 9) throw new Error("x must be between 0 and 9");
+		if (y < 0 || y > 9) throw new Error("y must be between 0 and 9");
+		if (board[x][y] === undefined) {
+			board[x][y] = "miss";
+		} else {
+			board[x][y].hit();
+		}
+	}
+
 	return {
 		get board() {
 			return board;
 		},
 		placeShip,
+		receiveAttack,
 	};
 }
 
