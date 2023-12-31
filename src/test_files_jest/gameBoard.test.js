@@ -2,8 +2,7 @@ import gameBoard from "../gameBoard";
 import createShip from "../ship";
 
 describe("gameBoard", () => {
-	let board;
-	let ship, ship1, ship2;
+	let board, ship, ship1, ship2, attackResult;
 
 	beforeEach(() => {
 		board = gameBoard();
@@ -34,30 +33,33 @@ describe("gameBoard", () => {
 	test("placeShip should throw error if ship is placed out of bounds", () => {
 		expect(() => {
 			board.placeShip(ship, 8, 0, false);
-		}).toThrow("ship must fit on board");
+		}).toThrow("Cannot place ship here");
 	});
 
 	test("placeShip should throw error if ship overlaps another ship", () => {
 		board.placeShip(ship, 0, 0, false);
 		expect(() => {
 			board.placeShip(ship, 0, 0, true);
-		}).toThrow("ship cannot overlap another ship");
+		}).toThrow("Cannot place ship here");
 	});
 
 	test("receiveAttack should correctly register a hit on a ship", () => {
 		board.placeShip(ship, 0, 0, true);
-		board.receiveAttack(0, 0);
+		attackResult = board.receiveAttack(0, 0);
+		expect(attackResult).toBe("hit");
 		expect(ship.numHits).toBe(1);
 	});
 
 	test('receiveAttack should mark the board as "miss" on an empty location', () => {
-		board.receiveAttack(4, 4);
+		attackResult = board.receiveAttack(4, 4);
+		expect(attackResult).toBe("miss");
 		expect(board.board[4][4]).toBe("miss");
 	});
 
 	test("receiveAttack should not affect a ship not at the attack location", () => {
 		board.placeShip(ship, 0, 0, true);
-		board.receiveAttack(4, 4);
+		attackResult = board.receiveAttack(4, 4);
+		expect(attackResult).toBe("miss");
 		expect(ship.numHits).toBe(0);
 	});
 
@@ -65,14 +67,16 @@ describe("gameBoard", () => {
 		board.placeShip(ship, 0, 0, true);
 		board.receiveAttack(0, 0);
 		board.receiveAttack(0, 1);
-		board.receiveAttack(0, 2);
+		attackResult = board.receiveAttack(0, 2);
+		expect(attackResult).toBe("sunk");
 		expect(ship.sunk).toBe(true);
 	});
 
 	test("allShipsSunk should return false when not all ships are sunk", () => {
 		board.placeShip(ship1, 0, 0, false);
 		board.placeShip(ship2, 5, 0, false);
-		board.receiveAttack(0, 0);
+		attackResult = board.receiveAttack(0, 0);
+		expect(attackResult).toBe("hit");
 		expect(board.allShipsSunk()).toBe(false);
 	});
 
@@ -82,10 +86,12 @@ describe("gameBoard", () => {
 
 		board.receiveAttack(0, 0);
 		board.receiveAttack(1, 0);
-		board.receiveAttack(2, 0);
+		attackResult = board.receiveAttack(2, 0);
+		expect(attackResult).toBe("sunk");
 
 		board.receiveAttack(5, 0);
-		board.receiveAttack(6, 0);
+		let attackResult2 = board.receiveAttack(6, 0);
+		expect(attackResult2).toBe("sunk");
 
 		expect(board.allShipsSunk()).toBe(true);
 	});

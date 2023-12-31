@@ -1,48 +1,53 @@
 function gameBoard() {
 	const board = Array.from({ length: 10 }, () => Array.from({ length: 10 }));
 
-	function placeShip(ship, x, y, isVertical) {
-		if (typeof x !== "number") throw new Error("x must be a number");
-		if (typeof y !== "number") throw new Error("y must be a number");
+	function validateCoordinates(x, y) {
+		if (typeof x !== "number" || x < 0 || x > 9)
+			throw new Error("x must be between 0 and 9");
+		if (typeof y !== "number" || y < 0 || y > 9)
+			throw new Error("y must be between 0 and 9");
+	}
+
+	function canPlaceShip(ship, x, y, isVertical) {
+		validateCoordinates(x, y);
 		if (typeof isVertical !== "boolean")
 			throw new Error("isVertical must be a boolean");
-		if (x < 0 || x > 9) throw new Error("x must be between 0 and 9");
-		if (y < 0 || y > 9) throw new Error("y must be between 0 and 9");
-		if (isVertical) {
-			if (y + (ship.length - 1) > 9) throw new Error("ship must fit on board");
-			if (board[y + ship.length - 1][x] !== undefined)
-				throw new Error("ship cannot overlap another ship");
-			for (let i = 0; i < ship.length; i += 1) {
-				if (board[y + i][x] !== undefined)
-					throw new Error("ship cannot overlap another ship");
-			}
-			for (let i = 0; i < ship.length; i += 1) {
-				board[y + i][x] = ship;
-			}
-		} else {
-			if (x + (ship.length - 1) > 9) throw new Error("ship must fit on board");
-			if (board[y][x + ship.length - 1] !== undefined)
-				throw new Error("ship cannot overlap another ship");
-			for (let i = 0; i < ship.length; i += 1) {
-				if (board[y][x + i] !== undefined)
-					throw new Error("ship cannot overlap another ship");
-			}
-			for (let i = 0; i < ship.length; i += 1) {
-				board[y][x + i] = ship;
-			}
+		const length = ship.length - 1;
+		const maxX = isVertical ? x : x + length;
+		const maxY = isVertical ? y + length : y;
+
+		if (maxX > 9 || maxY > 9) return false;
+
+		for (let i = 0; i <= length; i += 1) {
+			const checkX = isVertical ? x : x + i;
+			const checkY = isVertical ? y + i : y;
+			if (board[checkY][checkX] !== undefined) return false;
+		}
+
+		return true;
+	}
+
+	function placeShip(ship, x, y, isVertical) {
+		if (!canPlaceShip(ship, x, y, isVertical)) {
+			throw new Error("Cannot place ship here");
+		}
+
+		for (let i = 0; i < ship.length; i += 1) {
+			const placeX = isVertical ? x : x + i;
+			const placeY = isVertical ? y + i : y;
+			board[placeY][placeX] = ship;
 		}
 	}
 
 	function receiveAttack(x, y) {
-		if (typeof x !== "number") throw new Error("x must be a number");
-		if (typeof y !== "number") throw new Error("y must be a number");
-		if (x < 0 || x > 9) throw new Error("x must be between 0 and 9");
-		if (y < 0 || y > 9) throw new Error("y must be between 0 and 9");
+		validateCoordinates(x, y);
 		if (board[y][x] === undefined) {
 			board[y][x] = "miss";
-		} else {
-			board[y][x].hit();
+			return "miss";
 		}
+		board[y][x].hit();
+		if (board[y][x].sunk) return "sunk";
+		return "hit";
 	}
 
 	function allShipsSunk() {
@@ -60,6 +65,7 @@ function gameBoard() {
 		get board() {
 			return board;
 		},
+		canPlaceShip,
 		placeShip,
 		receiveAttack,
 		allShipsSunk,
