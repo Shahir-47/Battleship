@@ -3,11 +3,13 @@ import createShip from "../ship";
 
 describe("gameBoard", () => {
 	let board;
-	let ship;
+	let ship, ship1, ship2;
 
 	beforeEach(() => {
 		board = gameBoard();
 		ship = createShip(3);
+		ship1 = createShip(3);
+		ship2 = createShip(2);
 	});
 
 	test("board should be 10x10", () => {
@@ -62,8 +64,29 @@ describe("gameBoard", () => {
 	test("receiveAttack should sink a ship after enough hits", () => {
 		board.placeShip(ship, 0, 0, true);
 		board.receiveAttack(0, 0);
+		board.receiveAttack(0, 1);
+		board.receiveAttack(0, 2);
+		expect(ship.sunk).toBe(true);
+	});
+
+	test("allShipsSunk should return false when not all ships are sunk", () => {
+		board.placeShip(ship1, 0, 0, false);
+		board.placeShip(ship2, 5, 0, false);
+		board.receiveAttack(0, 0);
+		expect(board.allShipsSunk()).toBe(false);
+	});
+
+	test("allShipsSunk should return true when all ships are sunk", () => {
+		board.placeShip(ship1, 0, 0, false);
+		board.placeShip(ship2, 5, 0, false);
+
+		board.receiveAttack(0, 0);
 		board.receiveAttack(1, 0);
 		board.receiveAttack(2, 0);
-		expect(ship.sunk).toBe(true);
+
+		board.receiveAttack(5, 0);
+		board.receiveAttack(6, 0);
+
+		expect(board.allShipsSunk()).toBe(true);
 	});
 });

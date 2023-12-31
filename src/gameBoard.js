@@ -38,11 +38,22 @@ function gameBoard() {
 		if (typeof y !== "number") throw new Error("y must be a number");
 		if (x < 0 || x > 9) throw new Error("x must be between 0 and 9");
 		if (y < 0 || y > 9) throw new Error("y must be between 0 and 9");
-		if (board[x][y] === undefined) {
-			board[x][y] = "miss";
+		if (board[y][x] === undefined) {
+			board[y][x] = "miss";
 		} else {
-			board[x][y].hit();
+			board[y][x].hit();
 		}
+	}
+
+	function allShipsSunk() {
+		return board.every((row) =>
+			row.every(
+				(cell) =>
+					cell === undefined ||
+					cell === "miss" ||
+					(typeof cell === "object" && cell.sunk),
+			),
+		);
 	}
 
 	return {
@@ -51,6 +62,7 @@ function gameBoard() {
 		},
 		placeShip,
 		receiveAttack,
+		allShipsSunk,
 	};
 }
 
