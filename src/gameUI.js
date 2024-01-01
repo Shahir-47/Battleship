@@ -138,14 +138,29 @@ function updateBoard(x, y, result, enemy) {
 	}
 }
 
-function page() {
-	header();
-	mainContent();
+function loadGame() {
 	turn();
 	createBoard();
 	playerBoard();
 	enemyBoard();
 }
 
+function updateTurn(isTurn) {
+	const turnText = document.querySelector("div.turn-indicator p");
+	turnText.style.opacity = "0";
+	// Change text after fade out
+	setTimeout(() => {
+		turnText.textContent = isTurn ? "Your Turn" : "Computer's Turn";
+		// Fade in
+		turnText.style.opacity = "1";
+	}, 500); // This should match the CSS transition time
+}
+
+function page() {
+	header();
+	mainContent();
+	loadGame();
+}
+
 export default page;
-export { drawBoard, updateBoard };
+export { drawBoard, updateBoard, updateTurn };

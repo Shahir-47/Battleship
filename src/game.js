@@ -1,7 +1,7 @@
 import player from "./player";
 import computer from "./computer";
 import createShip from "./ship";
-import { drawBoard, updateBoard } from "./gameUI";
+import { drawBoard, updateBoard, updateTurn } from "./gameUI";
 
 function playGame() {
 	let gameActive = true;
@@ -54,22 +54,27 @@ function playGame() {
 
 			user.isTurn = false;
 			comp.isTurn = true;
+			updateTurn(user.isTurn);
 			// debugger;
-			const {
-				x: compX,
-				y: compY,
-				attackResult: compResult,
-			} = comp.attack(user);
-			updateBoard(compX, compY, compResult, false);
 
-			if (user.hasLost()) {
-				gameActive = false;
-				console.log("user has lost");
-				return;
-			}
+			setTimeout(() => {
+				const {
+					x: compX,
+					y: compY,
+					attackResult: compResult,
+				} = comp.attack(user);
+				updateBoard(compX, compY, compResult, false);
 
-			user.isTurn = true;
-			comp.isTurn = false;
+				if (user.hasLost()) {
+					gameActive = false;
+					console.log("user has lost");
+					return;
+				}
+
+				user.isTurn = true;
+				comp.isTurn = false;
+				updateTurn(user.isTurn);
+			}, 1000);
 		});
 	});
 

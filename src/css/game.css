@@ -124,6 +124,8 @@ div#content {
 	margin-bottom: 30px; /* Add some space below the header */
 	text-shadow: 4px 3px 0px #65715973;
 	margin: 0;
+	transition: opacity 0.5s ease-in-out;
+	opacity: 1; /* Start fully visible */
 }
 
 .board {
