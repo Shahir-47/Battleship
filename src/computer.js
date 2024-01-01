@@ -14,7 +14,7 @@ function computer() {
 		do {
 			x = Math.floor(Math.random() * 10);
 			y = Math.floor(Math.random() * 10);
-		} while (enemy.hitBoard[x][y] !== undefined);
+		} while (enemy.hitBoard[y][x] !== undefined);
 		return { x, y };
 	}
 
@@ -50,7 +50,7 @@ function computer() {
 					newX < 10 &&
 					newY >= 0 &&
 					newY < 10 &&
-					enemy.hitBoard[newX][newY] === undefined
+					enemy.hitBoard[newY][newX] === undefined
 				) {
 					attackOptions.push({ x: newX, y: newY });
 				}

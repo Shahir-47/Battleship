@@ -10,14 +10,16 @@ function player(name = "anonymous") {
 	}
 
 	function receiveAttack(row, col) {
-		let result = playerBoard.receiveAttack(row, col);
+		const result = playerBoard.receiveAttack(row, col);
 		if (result === "hit") {
-			hitBoard[row][col] = "hit";
+			hitBoard[col][row] = "hit";
 		} else if (result === "sunk") {
-			hitBoard[row][col] = "sunk";
+			hitBoard[col][row] = "sunk";
 		} else {
-			hitBoard[row][col] = "miss";
+			hitBoard[col][row] = "miss";
 		}
+		console.log(`player hitBoard:`);
+		console.log(hitBoard);
 		return result;
 	}
 
