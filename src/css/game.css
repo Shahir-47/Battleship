@@ -69,6 +69,11 @@ div#content {
 	padding: 0 1rem;
 }
 
+.cell.overlap {
+	background-color: red; /* Color indicating invalid placement due to overlap */
+	cursor: not-allowed; /* Blocked cursor */
+}
+
 .header h1 {
 	text-align: center; /* Center the header text */
 	font-family: "Arial", sans-serif; /* Use a modern, clean font */
@@ -170,6 +175,15 @@ div#content {
 .cell.blocked {
 	background-color: red; /* Color indicating invalid placement */
 	cursor: not-allowed; /* Blocked cursor */
+}
+
+.cell-with-ship {
+	background-color: #4caf50; /* Example color, adjust as needed */
+	border: 1px solid #ffffff87; /* Example border, adjust as needed */
+}
+
+div.board-grid .cell.cell-with-ship {
+	border: 3px ridge #a42514; /* Example border, adjust as needed */
 }
 
 .board h2 {

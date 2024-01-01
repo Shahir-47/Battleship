@@ -3,6 +3,19 @@ import computer from "./computer";
 import createShip from "./ship";
 import { drawBoard, updateBoard, updateTurn } from "./gameUI";
 
+function getRandomDarkColor() {
+	// Hue ranges from 0 to 360
+	const hue = Math.floor(Math.random() * 360);
+
+	// Saturation: 100% for full color intensity
+	const saturation = "100%";
+
+	// Lightness: limit to 10% - 30% for dark colors
+	const lightness = `${Math.floor(Math.random() * 20) + 10}%`;
+
+	return `hsl(${hue}, ${saturation}, ${lightness})`;
+}
+
 function playGame() {
 	let gameActive = true;
 	const user = player("Player 1");
@@ -14,40 +27,40 @@ function playGame() {
 	let selectedShipSize = ships.shift();
 	let isHorizontal = true; // Orientation of the ship
 
-	function highlightCells(e) {
+	function highlightCells(e, selectedShipSize) {
 		const startX = parseInt(e.target.dataset.x, 10);
 		const startY = parseInt(e.target.dataset.y, 10);
-		let isPlacementValid = true;
+
+		// Assuming user.playerBoard is accessible and has a method to check for ship at a given position
+		let isOverlap = false;
 
 		for (let i = 0; i < selectedShipSize; i++) {
-			const x = isHorizontal ? startX + i : startX;
+			const x = !isHorizontal ? startX : startX + i;
 			const y = isHorizontal ? startY : startY + i;
 			const cell = document.querySelector(
 				`.grid-cell[data-x="${x}"][data-y="${y}"]`,
 			);
-
-			if (!cell || x >= 10 || y >= 10) {
-				// Check if the cell is outside the board
-				isPlacementValid = false;
+			if (!cell || x >= 10 || y >= 10 || user.playerBoard.hasShipAt(x, y)) {
+				isOverlap = true;
 				break;
 			}
 		}
 
 		for (let i = 0; i < selectedShipSize; i++) {
-			const x = isHorizontal ? startX + i : startX;
+			const x = !isHorizontal ? startX : startX + i;
 			const y = isHorizontal ? startY : startY + i;
 			const cell = document.querySelector(
 				`.grid-cell[data-x="${x}"][data-y="${y}"]`,
 			);
 			if (cell) {
-				cell.classList.add(isPlacementValid ? "highlight" : "blocked"); // Use 'blocked' class for invalid placement
+				cell.classList.add(isOverlap ? "overlap" : "highlight");
 			}
 		}
 	}
 
 	function removeHighlight() {
 		gridCells.forEach((cell) => {
-			cell.classList.remove("highlight", "blocked");
+			cell.classList.remove("highlight", "overlap");
 		});
 	}
 
@@ -57,17 +70,35 @@ function playGame() {
 			highlightCells(e, selectedShipSize);
 		});
 		cell.addEventListener("mouseout", removeHighlight);
-		cell.addEventListener("click", (e) => {
-			// only shift if placed
-			// start game once all ships are placed
-			// implement logic to prevent ships from overlapping
+		cell.addEventListener("click", () => {
 			const x = parseInt(cell.dataset.x, 10);
 			const y = parseInt(cell.dataset.y, 10);
+
 			if (user.canPlaceShip(selectedShipSize, x, y, !isHorizontal)) {
-				user.placeShip(createShip(selectedShipSize), x, y, !isHorizontal);
-				highlightCells(e);
-				selectedShipSize = ships.shift();
-				// drawBoard(user.playerBoard.board);
+				try {
+					user.placeShip(createShip(selectedShipSize), x, y, !isHorizontal);
+
+					// Visualize the placed ship
+					const color = getRandomDarkColor();
+					for (let i = 0; i < selectedShipSize; i += 1) {
+						const cellX = !isHorizontal ? x : x + i;
+						const cellY = isHorizontal ? y : y + i;
+						const shipCell = document.querySelector(
+							`.grid-cell[data-x="${cellX}"][data-y="${cellY}"]`,
+						);
+						if (shipCell) {
+							shipCell.classList.add("cell-with-ship");
+							shipCell.style.borderColor = color;
+						}
+					}
+
+					selectedShipSize = ships.shift();
+					console.log(user.playerBoard.board);
+				} catch (error) {
+					// Handle error
+				}
+			} else {
+				// Handle invalid placement
 			}
 		});
 	});

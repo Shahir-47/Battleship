@@ -39,6 +39,10 @@ function gameBoard() {
 		}
 	}
 
+	function hasShipAt(x, y) {
+		return board[y][x] !== undefined;
+	}
+
 	function receiveAttack(x, y) {
 		validateCoordinates(x, y);
 		if (board[y][x] === undefined) {
@@ -67,6 +71,7 @@ function gameBoard() {
 		},
 		canPlaceShip,
 		placeShip,
+		hasShipAt,
 		receiveAttack,
 		allShipsSunk,
 	};
