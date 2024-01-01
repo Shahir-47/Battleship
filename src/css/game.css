@@ -1,0 +1,83 @@
+body {
+	--sidebar-bg-color: #19211a;
+	--content-text-color: #dddddd;
+	--title-box-color: #dddddd;
+	--item-focus-color: #1f2937;
+	--search-box-bg-color: #192734;
+	--search-input-color: #dddddd;
+	--search-btn-bg-color: #313e4b;
+	--logo-color: #dddddd;
+	--toggle-switch-bg-color: #6b757e;
+	--toggle-switch-border-color: #2ca9bc;
+	--footer-color: #dddddd;
+	--footer-active: #ffffff;
+	--add-btn-color: #3f51b5;
+	--add-btn-bg-color: #90caf9;
+	--form-header-color: #dddddd;
+	--form-scroll-box-bg-color: #9e9e9e21;
+	--todo-item-bg-color: #192734;
+	--todo-item-hover-color: #2d3d4d;
+	--back-btn-color: #3f51b5;
+	--form-input-color: #192734;
+	--header-color: #dddddd;
+	--note-color: #ffffff;
+	--note-header: #90caf9;
+	--note-out-of-focus: #dddddd;
+	--highlight: #5369e5;
+	--red: #c81414;
+	background-color: #19211a;
+	margin: 0;
+	padding: 0;
+	font-family:
+		system-ui,
+		-apple-system,
+		BlinkMacSystemFont,
+		"Segoe UI",
+		Roboto,
+		Oxygen,
+		Ubuntu,
+		Cantarell,
+		"Open Sans",
+		"Helvetica Neue",
+		sans-serif;
+	color: #dddddd;
+}
+
+.nav-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	background-color: var(--sidebar-bg-color);
+	width: calc(100% - 2rem);
+	z-index: 2;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 5rem;
+	padding: 0 1rem;
+	padding-top: 0.25rem;
+}
+
+.header h1 {
+	text-align: center; /* Center the header text */
+	font-family: "Arial", sans-serif; /* Use a modern, clean font */
+	font-size: 48px; /* Set a large font size for impact */
+	color: #ffffff87; /* White color for the text for better contrast */
+	background-color: #19211a; /* Navy blue background */
+	padding: 20px; /* Add some padding around the text */
+	text-transform: uppercase; /* Make all letters uppercase for more impact */
+	letter-spacing: 2px; /* Increase spacing between letters */
+	margin-bottom: 30px; /* Add some space below the header */
+	text-shadow: 2px 2px 2px #737373;
+}
+
+.header h1:hover {
+	color: #849177; /* Change text color on hover */
+	cursor: pointer; /* Change the cursor to indicate it's clickable */
+}
+
+.icon {
+	width: 7.5rem;
+	height: auto;
+}

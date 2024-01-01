@@ -66,7 +66,9 @@ function computer() {
 
 	function attack(player) {
 		const { x, y } = chooseAttack();
+		console.log(`x: ${x}, y: ${y}`);
 		const attackResult = player.receiveAttack(x, y);
+		console.log(`computer attackResult: ${attackResult}`);
 		if (attackResult === "hit") {
 			lastHit = { x, y };
 			targetMode = true;
