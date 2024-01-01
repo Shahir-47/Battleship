@@ -209,7 +209,7 @@ div.board-grid .cell {
 	background-color: #ff000087;
 }
 
-div.cell.ship.hit {
+div.cell.hit {
 	background-color: #00ff1e87;
 	border: 1px solid #00ff1e87;
 }

@@ -104,7 +104,7 @@ function drawBoard(board, isEnemy = false) {
 			cell.dataset.x = j;
 			cell.dataset.y = i;
 
-			if (board[i][j] !== undefined) {
+			if (board[i][j] !== undefined && !isEnemy) {
 				cell.classList.add("ship");
 				cell.classList.add(`ship-${board[i][j].name}`);
 			}
