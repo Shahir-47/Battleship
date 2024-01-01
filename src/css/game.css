@@ -167,6 +167,11 @@ div#content {
 	background-color: lightblue;
 }
 
+.cell.blocked {
+	background-color: red; /* Color indicating invalid placement */
+	cursor: not-allowed; /* Blocked cursor */
+}
+
 .board h2 {
 	margin: 0;
 }

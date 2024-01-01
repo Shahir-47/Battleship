@@ -10,27 +10,44 @@ function playGame() {
 
 	const gridCells = document.querySelectorAll(".grid-cell");
 	const rotateButton = document.querySelector(".rotate-button");
-	let ships = [5, 4, 3, 3, 2];
+	const ships = [5, 4, 3, 3, 2];
 	let selectedShipSize = ships.shift();
 	let isHorizontal = true; // Orientation of the ship
 
 	function highlightCells(e) {
 		const startX = parseInt(e.target.dataset.x, 10);
 		const startY = parseInt(e.target.dataset.y, 10);
+		let isPlacementValid = true;
 
-		for (let i = 0; i < selectedShipSize; i += 1) {
+		for (let i = 0; i < selectedShipSize; i++) {
 			const x = isHorizontal ? startX + i : startX;
 			const y = isHorizontal ? startY : startY + i;
 			const cell = document.querySelector(
 				`.grid-cell[data-x="${x}"][data-y="${y}"]`,
 			);
-			if (cell) cell.classList.add("highlight");
+
+			if (!cell || x >= 10 || y >= 10) {
+				// Check if the cell is outside the board
+				isPlacementValid = false;
+				break;
+			}
+		}
+
+		for (let i = 0; i < selectedShipSize; i++) {
+			const x = isHorizontal ? startX + i : startX;
+			const y = isHorizontal ? startY : startY + i;
+			const cell = document.querySelector(
+				`.grid-cell[data-x="${x}"][data-y="${y}"]`,
+			);
+			if (cell) {
+				cell.classList.add(isPlacementValid ? "highlight" : "blocked"); // Use 'blocked' class for invalid placement
+			}
 		}
 	}
 
 	function removeHighlight() {
 		gridCells.forEach((cell) => {
-			cell.classList.remove("highlight");
+			cell.classList.remove("highlight", "blocked");
 		});
 	}
 
@@ -40,8 +57,18 @@ function playGame() {
 			highlightCells(e, selectedShipSize);
 		});
 		cell.addEventListener("mouseout", removeHighlight);
-		cell.addEventListener("click", () => {
-			selectedShipSize = ships.shift();
+		cell.addEventListener("click", (e) => {
+			// only shift if placed
+			// start game once all ships are placed
+			// implement logic to prevent ships from overlapping
+			const x = parseInt(cell.dataset.x, 10);
+			const y = parseInt(cell.dataset.y, 10);
+			if (user.canPlaceShip(selectedShipSize, x, y, !isHorizontal)) {
+				user.placeShip(createShip(selectedShipSize), x, y, !isHorizontal);
+				highlightCells(e);
+				selectedShipSize = ships.shift();
+				// drawBoard(user.playerBoard.board);
+			}
 		});
 	});
 

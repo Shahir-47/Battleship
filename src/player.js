@@ -9,6 +9,10 @@ function player(name = "anonymous") {
 		playerBoard.placeShip(ship, row, col, vertical);
 	}
 
+	function canPlaceShip(ship, row, col, vertical) {
+		return playerBoard.canPlaceShip(ship, row, col, vertical);
+	}
+
 	function receiveAttack(row, col) {
 		const result = playerBoard.receiveAttack(row, col);
 		if (result === "hit") {
@@ -34,6 +38,7 @@ function player(name = "anonymous") {
 	return {
 		name,
 		placeShip,
+		canPlaceShip,
 		receiveAttack,
 		attack,
 		hasLost,
