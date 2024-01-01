@@ -10,7 +10,8 @@ function playGame() {
 
 	const gridCells = document.querySelectorAll(".grid-cell");
 	const rotateButton = document.querySelector(".rotate-button");
-	const selectedShipSize = 3; // Example size
+	let ships = [5, 4, 3, 3, 2];
+	let selectedShipSize = ships.shift();
 	let isHorizontal = true; // Orientation of the ship
 
 	function highlightCells(e) {
@@ -34,8 +35,14 @@ function playGame() {
 	}
 
 	gridCells.forEach((cell) => {
-		cell.addEventListener("mouseover", highlightCells);
+		cell.addEventListener("mouseover", (e) => {
+			if (selectedShipSize === -1) return;
+			highlightCells(e, selectedShipSize);
+		});
 		cell.addEventListener("mouseout", removeHighlight);
+		cell.addEventListener("click", () => {
+			selectedShipSize = ships.shift();
+		});
 	});
 
 	rotateButton.addEventListener("click", () => {
@@ -43,74 +50,74 @@ function playGame() {
 	});
 
 	// Place ships
-	user.placeShip(createShip(5), 0, 0, false);
-	user.placeShip(createShip(4), 0, 1, false);
-	user.placeShip(createShip(3), 0, 2, false);
-	user.placeShip(createShip(3), 0, 3, false);
-	user.placeShip(createShip(2), 0, 4, false);
+	// user.placeShip(createShip(5), 0, 0, false);
+	// user.placeShip(createShip(4), 0, 1, false);
+	// user.placeShip(createShip(3), 0, 2, false);
+	// user.placeShip(createShip(3), 0, 3, false);
+	// user.placeShip(createShip(2), 0, 4, false);
 
-	console.log("user board:");
-	console.log(user.playerBoard.board);
+	// console.log("user board:");
+	// console.log(user.playerBoard.board);
 
-	comp.placeShipsAutomatically();
+	// comp.placeShipsAutomatically();
 
-	console.log("comp board:");
-	console.log(comp.compBoard.board);
+	// console.log("comp board:");
+	// console.log(comp.compBoard.board);
 
-	drawBoard(user.playerBoard.board);
-	drawBoard(comp.compBoard.board, true);
+	// drawBoard(user.playerBoard.board);
+	// drawBoard(comp.compBoard.board, true);
 
-	user.isTurn = true;
-	comp.isTurn = false;
+	// user.isTurn = true;
+	// comp.isTurn = false;
 
-	const cells = document.querySelectorAll(".enemy .cell");
-	cells.forEach((cell) => {
-		cell.addEventListener("click", (e) => {
-			if (!gameActive || !user.isTurn) return;
-			if (
-				e.target.classList.contains("hit") ||
-				e.target.classList.contains("miss")
-			)
-				return;
-			const { x } = e.target.dataset;
-			const { y } = e.target.dataset;
-			const xInt = parseInt(x, 10);
-			const yInt = parseInt(y, 10);
+	// const cells = document.querySelectorAll(".enemy .cell");
+	// cells.forEach((cell) => {
+	// 	cell.addEventListener("click", (e) => {
+	// 		if (!gameActive || !user.isTurn) return;
+	// 		if (
+	// 			e.target.classList.contains("hit") ||
+	// 			e.target.classList.contains("miss")
+	// 		)
+	// 			return;
+	// 		const { x } = e.target.dataset;
+	// 		const { y } = e.target.dataset;
+	// 		const xInt = parseInt(x, 10);
+	// 		const yInt = parseInt(y, 10);
 
-			const result = user.attack(xInt, yInt, comp);
-			updateBoard(xInt, yInt, result, true);
+	// 		const result = user.attack(xInt, yInt, comp);
+	// 		updateBoard(xInt, yInt, result, true);
 
-			if (comp.hasLost()) {
-				console.log("comp has lost");
-				gameActive = false;
-				return;
-			}
+	// 		if (comp.hasLost()) {
+	// 			console.log("comp has lost");
+	// 			gameActive = false;
+	// 			return;
+	// 		}
 
-			user.isTurn = false;
-			comp.isTurn = true;
-			updateTurn(user.isTurn);
-			// debugger;
+	// 		user.isTurn = false;
+	// 		comp.isTurn = true;
+	// 		updateTurn(user.isTurn);
+	// 		// debugger;
 
-			setTimeout(() => {
-				const {
-					x: compX,
-					y: compY,
-					attackResult: compResult,
-				} = comp.attack(user);
-				updateBoard(compX, compY, compResult, false);
+	// 		setTimeout(() => {
+	// 			const {
+	// 				x: compX,
+	// 				y: compY,
+	// 				attackResult: compResult,
+	// 			} = comp.attack(user);
+	// 			updateBoard(compX, compY, compResult, false);
 
-				if (user.hasLost()) {
-					gameActive = false;
-					console.log("user has lost");
-					return;
-				}
+	// 			if (user.hasLost()) {
+	// 				gameActive = false;
+	// 				console.log("user has lost");
+	// 				return;
+	// 			}
 
-				user.isTurn = true;
-				comp.isTurn = false;
-				updateTurn(user.isTurn);
-			}, 1000);
-		});
-	});
+	// 			user.isTurn = true;
+	// 			comp.isTurn = false;
+	// 			updateTurn(user.isTurn);
+	// 		}, 1000);
+	// 	});
+	// });
 
 	// 	// Play game
 	// 	let gameOver = false;
