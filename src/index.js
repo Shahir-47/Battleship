@@ -1,10 +1,10 @@
 import playGame from "./game";
-import header from "./gameUI";
+import page from "./gameUI";
 import "./css/normalize.css";
 import "./css/game.css";
 
-header();
-// playGame();
+page();
+playGame();
 
 // import gameBoard from "./gameBoard";
 // import createShip from "./ship";

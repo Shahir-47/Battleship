@@ -2,6 +2,7 @@ import gameBoard from "./gameBoard";
 
 function player(name = "anonymous") {
 	const playerBoard = gameBoard();
+	const hitBoard = Array.from({ length: 10 }, () => Array.from({ length: 10 }));
 	let isTurn = false;
 
 	function placeShip(ship, row, col, vertical) {
@@ -9,7 +10,15 @@ function player(name = "anonymous") {
 	}
 
 	function receiveAttack(row, col) {
-		return playerBoard.receiveAttack(row, col);
+		let result = playerBoard.receiveAttack(row, col);
+		if (result === "hit") {
+			hitBoard[row][col] = "hit";
+		} else if (result === "sunk") {
+			hitBoard[row][col] = "sunk";
+		} else {
+			hitBoard[row][col] = "miss";
+		}
+		return result;
 	}
 
 	function attack(row, col, enemy) {
@@ -34,6 +43,9 @@ function player(name = "anonymous") {
 		},
 		get playerBoard() {
 			return playerBoard;
+		},
+		get hitBoard() {
+			return hitBoard;
 		},
 	};
 }

@@ -8,13 +8,13 @@ function computer() {
 	let attackOptions = []; // Stores potential cells to attack in target mode
 	let isTurn = false;
 
-	function randomAttack() {
+	function randomAttack(enemy) {
 		let x;
 		let y;
 		do {
 			x = Math.floor(Math.random() * 10);
 			y = Math.floor(Math.random() * 10);
-		} while (compBoard.board[x][y] !== undefined);
+		} while (enemy.hitBoard[x][y] !== undefined);
 		return { x, y };
 	}
 
@@ -34,7 +34,7 @@ function computer() {
 		});
 	}
 
-	function targetAttack() {
+	function targetAttack(enemy) {
 		if (attackOptions.length === 0) {
 			const directions = [
 				[1, 0],
@@ -50,7 +50,7 @@ function computer() {
 					newX < 10 &&
 					newY >= 0 &&
 					newY < 10 &&
-					compBoard.board[newX][newY] === undefined
+					enemy.hitBoard[newX][newY] === undefined
 				) {
 					attackOptions.push({ x: newX, y: newY });
 				}
@@ -60,12 +60,12 @@ function computer() {
 		return attackOptions.shift();
 	}
 
-	function chooseAttack() {
-		return targetMode ? targetAttack() : randomAttack();
+	function chooseAttack(enemy) {
+		return targetMode ? targetAttack(enemy) : randomAttack(enemy);
 	}
 
 	function attack(player) {
-		const { x, y } = chooseAttack();
+		const { x, y } = chooseAttack(player);
 		console.log(`x: ${x}, y: ${y}`);
 		const attackResult = player.receiveAttack(x, y);
 		console.log(`computer attackResult: ${attackResult}`);
@@ -81,7 +81,7 @@ function computer() {
 			targetMode = false;
 			attackOptions = []; // Clear attack options
 		}
-		return attackResult;
+		return { x, y, attackResult };
 	}
 
 	function receiveAttack(x, y) {

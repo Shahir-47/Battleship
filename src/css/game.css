@@ -43,20 +43,30 @@ body {
 	color: #dddddd;
 }
 
+div#content {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: stretch;
+	height: 100vh;
+}
+
 .nav-bar {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
 	background-color: var(--sidebar-bg-color);
-	width: calc(100% - 2rem);
-	z-index: 2;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	gap: 5rem;
 	padding: 0 1rem;
 	padding-top: 0.25rem;
+}
+
+.main-content {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 1rem;
+	padding: 0 1rem;
 }
 
 .header h1 {
@@ -68,7 +78,7 @@ body {
 	padding: 20px; /* Add some padding around the text */
 	text-transform: uppercase; /* Make all letters uppercase for more impact */
 	letter-spacing: 2px; /* Increase spacing between letters */
-	margin-bottom: 30px; /* Add some space below the header */
+	margin: 0px; /* Add some space below the header */
 	text-shadow: 2px 2px 2px #737373;
 }
 
@@ -78,6 +88,104 @@ body {
 }
 
 .icon {
-	width: 7.5rem;
+	width: 6rem;
 	height: auto;
+}
+
+.turn-indicator {
+	width: 60%;
+	height: 100%;
+	border-radius: 1rem;
+	/* background-color: #ffffff87; */
+	padding: 0.5rem;
+	text-align: center;
+	background: #ffffff87;
+	background: -moz-linear-gradient(
+		-45deg,
+		#cdcaca87 0%,
+		#ffffff87 50%,
+		#cdcdcda6 100%
+	);
+	background: -webkit-linear-gradient(
+		-45deg,
+		#cdcaca87 0%,
+		#ffffff87 50%,
+		#cdcdcda6 100%
+	);
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+.turn-indicator p {
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: #19211a;
+	font-family: "Arial", sans-serif; /* Use a modern, clean font */
+	text-transform: uppercase; /* Make all letters uppercase for more impact */
+	letter-spacing: 2px; /* Increase spacing between letters */
+	margin-bottom: 30px; /* Add some space below the header */
+	text-shadow: 4px 3px 0px #65715973;
+	margin: 0;
+}
+
+.board {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 1rem;
+	align-items: center;
+	justify-items: center;
+	justify-content: center;
+	align-content: center;
+}
+
+.board h2 {
+	margin: 0;
+}
+
+.turn-div {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+div.board-grid {
+	display: grid;
+	grid-template: repeat(10, 2.5vw) / repeat(10, 2.5vw);
+	text-align: center;
+	gap: 2px;
+	align-items: center;
+	justify-items: center;
+	justify-content: center;
+	align-content: center;
+}
+
+div.board-grid .cell {
+	border: 1px solid white;
+	height: 100%;
+	width: 100%;
+	transition: all 0.3s ease 0s;
+}
+
+.enemy,
+.player {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+}
+
+.ship {
+	background-color: aqua;
+}
+
+.miss {
+	background-color: #ff000087;
+}
+
+.hit {
+	background-color: #00ff1e87;
+}
+
+.sunk {
+	background-color: #ff00ee87;
 }
