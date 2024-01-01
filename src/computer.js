@@ -19,7 +19,7 @@ function computer() {
 	}
 
 	function placeShipsAutomatically() {
-		const ships = [3, 2];
+		const ships = [5, 4, 3, 3, 2];
 		ships.forEach((length) => {
 			let x;
 			let y;
@@ -61,7 +61,10 @@ function computer() {
 	}
 
 	function chooseAttack(enemy) {
-		return targetMode ? targetAttack(enemy) : randomAttack(enemy);
+		if (lastHit === null) {
+			return randomAttack(enemy);
+		}
+		return targetAttack(enemy);
 	}
 
 	function attack(player) {
