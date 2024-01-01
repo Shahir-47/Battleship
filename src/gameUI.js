@@ -103,8 +103,9 @@ function drawBoard(board, isEnemy = false) {
 			cell.dataset.x = j;
 			cell.dataset.y = i;
 
-			if (board[i][j] !== undefined && !isEnemy) {
+			if (board[i][j] !== undefined) {
 				cell.classList.add("ship");
+				cell.classList.add(`ship-${board[i][j].name}`);
 			}
 			boardGrid.appendChild(cell);
 		}
@@ -123,10 +124,16 @@ function hit(x, y, enemy) {
 	cell.classList.add("hit");
 }
 
+function sunk(x, y, enemy) {
+	const boardGrid = returnBoardGrid(enemy);
+	const cell = boardGrid.children[y * 10 + x];
+	cell.classList.add("sunk");
+}
+
 function updateBoard(x, y, result, enemy) {
 	if (result === "miss") {
 		miss(x, y, enemy);
-	} else if (result === "hit") {
+	} else {
 		hit(x, y, enemy);
 	}
 }
@@ -190,6 +197,7 @@ function page() {
 	header();
 	mainContent();
 	startPage();
+	// loadGame();
 }
 
 export default page;

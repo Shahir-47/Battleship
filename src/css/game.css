@@ -177,8 +177,13 @@ div#content {
 	cursor: not-allowed; /* Blocked cursor */
 }
 
+.cell-with-ship {
+	background-color: #4caf50; /* Example color, adjust as needed */
+	border: 1px solid #ffffff87; /* Example border, adjust as needed */
+}
+
 div.board-grid .cell.cell-with-ship {
-	background-color: #00ff1e87;
+	border: 3px ridge #a42514; /* Example border, adjust as needed */
 }
 
 .board h2 {
@@ -227,7 +232,11 @@ div.board-grid .cell {
 	background-color: #ff000087;
 }
 
-div.cell.hit {
+div.cell.ship.hit {
 	background-color: #00ff1e87;
 	border: 1px solid #00ff1e87;
+}
+
+.sunk {
+	background-color: #ff00ee87;
 }
