@@ -3,8 +3,19 @@ import page from "./gameUI";
 import "./css/normalize.css";
 import "./css/game.css";
 
+import { hidePopup } from "./gameUI";
+
 page();
 playGame();
+
+document.getElementById("playAgainButton").addEventListener("click", () => {
+	// Code to reset the game and start again
+	hidePopup();
+	const content = document.querySelector("div#content");
+	content.innerHTML = "";
+	page();
+	playGame();
+});
 
 // import gameBoard from "./gameBoard";
 // import createShip from "./ship";

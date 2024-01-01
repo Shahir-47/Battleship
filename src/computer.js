@@ -19,7 +19,7 @@ function computer() {
 	}
 
 	function placeShipsAutomatically() {
-		const ships = [5, 4, 3, 3, 2];
+		const ships = [3, 2];
 		ships.forEach((length) => {
 			let x;
 			let y;

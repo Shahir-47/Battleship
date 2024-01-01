@@ -140,6 +140,7 @@ div#content {
 	align-items: center;
 }
 
+#playAgainButton,
 .rotate-button {
 	background-color: #506052;
 	color: #c1c1c1d6;
@@ -153,6 +154,7 @@ div#content {
 		background-color 0.3s ease;
 }
 
+#playAgainButton:hover,
 .rotate-button:hover {
 	background-color: #2c7235; /* Background color on hover */
 	color: #ffffff87; /* Text color on hover */
@@ -239,4 +241,25 @@ div.cell.ship.hit {
 
 .sunk {
 	background-color: #ff00ee87;
+}
+
+.popup {
+	display: none;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	background-color: transparent;
+	color: #dddddd;
+	padding: 20px;
+	z-index: 1000; /* Ensure it's above other content */
+}
+
+.popup-content {
+	text-align: center;
+}
+
+.popup-content p {
+	font-size: 1rem;
+	font-weight: 900;
 }

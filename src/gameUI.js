@@ -124,12 +124,6 @@ function hit(x, y, enemy) {
 	cell.classList.add("hit");
 }
 
-function sunk(x, y, enemy) {
-	const boardGrid = returnBoardGrid(enemy);
-	const cell = boardGrid.children[y * 10 + x];
-	cell.classList.add("sunk");
-}
-
 function updateBoard(x, y, result, enemy) {
 	if (result === "miss") {
 		miss(x, y, enemy);
@@ -179,13 +173,7 @@ function loadGame() {
 
 function updateTurn(isTurn) {
 	const turnText = document.querySelector("div.turn-indicator p");
-	turnText.style.opacity = "0";
-	// Change text after fade out
-	setTimeout(() => {
-		turnText.textContent = isTurn ? "Your Turn" : "Computer's Turn";
-		// Fade in
-		turnText.style.opacity = "1";
-	}, 500); // This should match the CSS transition time
+	turnText.textContent = isTurn ? "Your Turn" : "Computer's Turn";
 }
 
 function winner(player) {
@@ -193,12 +181,27 @@ function winner(player) {
 	turnText.textContent = `${player} won!`;
 }
 
+function hidePopup() {
+	document.getElementById("playAgainPopup").style.display = "none";
+}
+
 function page() {
 	header();
 	mainContent();
 	startPage();
-	// loadGame();
+}
+
+function showPopup() {
+	document.getElementById("playAgainPopup").style.display = "block";
 }
 
 export default page;
-export { drawBoard, updateBoard, updateTurn, loadGame, winner };
+export {
+	drawBoard,
+	updateBoard,
+	updateTurn,
+	loadGame,
+	winner,
+	showPopup,
+	hidePopup,
+};

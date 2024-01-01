@@ -1,7 +1,14 @@
 import player from "./player";
 import computer from "./computer";
 import createShip from "./ship";
-import { drawBoard, updateBoard, updateTurn, loadGame, winner } from "./gameUI";
+import {
+	drawBoard,
+	updateBoard,
+	updateTurn,
+	loadGame,
+	winner,
+	showPopup,
+} from "./gameUI";
 
 function gameTime(userParam, compParam, gameActiveParam) {
 	const user = userParam;
@@ -43,6 +50,7 @@ function gameTime(userParam, compParam, gameActiveParam) {
 				console.log("comp has lost");
 				gameActive = false;
 				winner("user");
+				showPopup();
 				return;
 			}
 
@@ -62,6 +70,7 @@ function gameTime(userParam, compParam, gameActiveParam) {
 					gameActive = false;
 					console.log("user has lost");
 					winner("comp");
+					showPopup();
 					return;
 				}
 
