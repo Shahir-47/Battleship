@@ -8,6 +8,40 @@ function playGame() {
 	const user = player("Player 1");
 	const comp = computer();
 
+	const gridCells = document.querySelectorAll(".grid-cell");
+	const rotateButton = document.querySelector(".rotate-button");
+	const selectedShipSize = 3; // Example size
+	let isHorizontal = true; // Orientation of the ship
+
+	function highlightCells(e) {
+		const startX = parseInt(e.target.dataset.x, 10);
+		const startY = parseInt(e.target.dataset.y, 10);
+
+		for (let i = 0; i < selectedShipSize; i += 1) {
+			const x = isHorizontal ? startX + i : startX;
+			const y = isHorizontal ? startY : startY + i;
+			const cell = document.querySelector(
+				`.grid-cell[data-x="${x}"][data-y="${y}"]`,
+			);
+			if (cell) cell.classList.add("highlight");
+		}
+	}
+
+	function removeHighlight() {
+		gridCells.forEach((cell) => {
+			cell.classList.remove("highlight");
+		});
+	}
+
+	gridCells.forEach((cell) => {
+		cell.addEventListener("mouseover", highlightCells);
+		cell.addEventListener("mouseout", removeHighlight);
+	});
+
+	rotateButton.addEventListener("click", () => {
+		isHorizontal = !isHorizontal;
+	});
+
 	// Place ships
 	user.placeShip(createShip(5), 0, 0, false);
 	user.placeShip(createShip(4), 0, 1, false);

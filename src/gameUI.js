@@ -138,7 +138,39 @@ function updateBoard(x, y, result, enemy) {
 	}
 }
 
+function startPage() {
+	const main = document.querySelector("div.main-content");
+	main.innerHTML = "";
+	turn();
+	const turnText = document.querySelector("div.turn-indicator p");
+	turnText.textContent = "Place your ships by clicking on the board below";
+
+	const rotateContainer = document.createElement("div");
+	rotateContainer.classList.add("rotate-container");
+
+	const rotateButton = document.createElement("button");
+	rotateButton.classList.add("rotate-button");
+	rotateButton.textContent = "Rotate";
+	rotateContainer.appendChild(rotateButton);
+	main.appendChild(rotateContainer);
+
+	const boardGrid = document.createElement("div");
+	boardGrid.classList.add("board-grid");
+	main.appendChild(boardGrid);
+
+	for (let i = 0; i < 100; i += 1) {
+		const cell = document.createElement("div");
+		cell.classList.add("cell");
+		cell.classList.add("grid-cell");
+		cell.dataset.x = i % 10;
+		cell.dataset.y = Math.floor(i / 10);
+		boardGrid.appendChild(cell);
+	}
+}
+
 function loadGame() {
+	const main = document.querySelector("div.main-content");
+	main.innerHTML = "";
 	turn();
 	createBoard();
 	playerBoard();
@@ -159,7 +191,8 @@ function updateTurn(isTurn) {
 function page() {
 	header();
 	mainContent();
-	loadGame();
+	startPage();
+	// loadGame();
 }
 
 export default page;
