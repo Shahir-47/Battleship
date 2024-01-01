@@ -22,6 +22,26 @@ function gameBoard() {
 			const checkX = isVertical ? x : x + i;
 			const checkY = isVertical ? y + i : y;
 			if (board[checkY][checkX] !== undefined) return false;
+
+			// Check adjacent cells
+			for (let adjX = -1; adjX <= 1; adjX += 1) {
+				for (let adjY = -1; adjY <= 1; adjY += 1) {
+					const neighborX = checkX + adjX;
+					const neighborY = checkY + adjY;
+
+					// Validate neighbor coordinates
+					if (
+						neighborX >= 0 &&
+						neighborX < 10 &&
+						neighborY >= 0 &&
+						neighborY < 10
+					) {
+						if (board[neighborY][neighborX] !== undefined) {
+							return false;
+						}
+					}
+				}
+			}
 		}
 
 		return true;

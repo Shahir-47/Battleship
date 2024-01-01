@@ -102,7 +102,8 @@ function drawBoard(board, isEnemy = false) {
 			cell.classList.add("cell");
 			cell.dataset.x = j;
 			cell.dataset.y = i;
-			if (board[i][j] !== undefined) {
+
+			if (board[i][j] !== undefined && !isEnemy) {
 				cell.classList.add("ship");
 			}
 			boardGrid.appendChild(cell);
@@ -122,19 +123,11 @@ function hit(x, y, enemy) {
 	cell.classList.add("hit");
 }
 
-function sunk(x, y, enemy) {
-	const boardGrid = returnBoardGrid(enemy);
-	const cell = boardGrid.children[y * 10 + x];
-	cell.classList.add("sunk");
-}
-
 function updateBoard(x, y, result, enemy) {
 	if (result === "miss") {
 		miss(x, y, enemy);
 	} else if (result === "hit") {
 		hit(x, y, enemy);
-	} else if (result === "sunk") {
-		sunk(x, y, enemy);
 	}
 }
 
@@ -188,12 +181,16 @@ function updateTurn(isTurn) {
 	}, 500); // This should match the CSS transition time
 }
 
+function winner(player) {
+	const turnText = document.querySelector("div.turn-indicator p");
+	turnText.textContent = `${player} won!`;
+}
+
 function page() {
 	header();
 	mainContent();
 	startPage();
-	// loadGame();
 }
 
 export default page;
-export { drawBoard, updateBoard, updateTurn };
+export { drawBoard, updateBoard, updateTurn, loadGame, winner };
