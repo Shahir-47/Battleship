@@ -1,4 +1,5 @@
 import soldier from "./img/soldier.svg";
+import GitHub from "./img/git.svg";
 
 function header() {
 	const bar = document.createElement("div");
@@ -185,10 +186,49 @@ function hidePopup() {
 	document.getElementById("playAgainPopup").style.display = "none";
 }
 
+// Create the footer
+const createFooter = () => {
+	const footer = document.createElement("footer");
+	footer.classList.add("footer");
+
+	const gitHubProfile = document.createElement("a");
+	gitHubProfile.href = "https://github.com/Shahir-47";
+
+	const gitHubProfileImg = document.createElement("img");
+	gitHubProfileImg.src = GitHub;
+	gitHubProfileImg.alt = "gitHub Logo";
+
+	const gitHubProfileText = document.createElement("p");
+	const atSymbol = document.createElement("span");
+	atSymbol.classList.add("at-symbol");
+	atSymbol.textContent = "@";
+	const username = document.createElement("span");
+	username.textContent = "Shahir-47";
+	gitHubProfileText.appendChild(atSymbol);
+	gitHubProfileText.appendChild(username);
+
+	gitHubProfile.appendChild(gitHubProfileImg);
+	gitHubProfile.appendChild(gitHubProfileText);
+
+	const seperator = document.createElement("p");
+	seperator.textContent = "|";
+
+	const gitHubRepo = document.createElement("a");
+	gitHubRepo.href = "https://github.com/Shahir-47/Battleship";
+	gitHubRepo.textContent = "Source Code";
+
+	footer.appendChild(gitHubProfile);
+	footer.appendChild(seperator);
+	footer.appendChild(gitHubRepo);
+
+	document.querySelector("div#content").appendChild(footer);
+};
+
 function page() {
 	header();
 	mainContent();
 	startPage();
+	createFooter();
 }
 
 function showPopup() {
