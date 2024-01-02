@@ -60,7 +60,10 @@ function computer() {
 				}
 			});
 		}
-		// if there are attack options, choose one
+		// if there are no attack options, choose a random attack
+		if (attackOptions.length === 0) {
+			return randomAttack(enemy);
+		}
 		return attackOptions.shift();
 	}
 
