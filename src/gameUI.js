@@ -1,17 +1,16 @@
 import soldier from "./img/soldier.svg";
 import GitHub from "./img/git.svg";
 
+// Create the header
 function header() {
 	const bar = document.createElement("div");
 	bar.classList.add("nav-bar");
 
-	// items on the left side of the header
 	const leftIcon = document.createElement("img");
 	leftIcon.classList.add("icon");
 	leftIcon.src = soldier;
 	leftIcon.alt = "soldier";
 
-	// Create the menu button
 	const titleBox = document.createElement("div");
 	titleBox.classList.add("header");
 	const title = document.createElement("h1");
@@ -30,12 +29,14 @@ function header() {
 	document.querySelector("div#content").appendChild(bar);
 }
 
+// Create the main content
 function mainContent() {
 	const main = document.createElement("div");
 	main.classList.add("main-content");
 	document.querySelector("div#content").appendChild(main);
 }
 
+// Create the turn indicator
 function turn() {
 	const turnDiv = document.createElement("div");
 	turnDiv.classList.add("turn-div");
@@ -48,12 +49,14 @@ function turn() {
 	document.querySelector("div.main-content").appendChild(turnDiv);
 }
 
+// Create the board container
 function createBoard() {
 	const board = document.createElement("div");
 	board.classList.add("board");
 	document.querySelector("div.main-content").appendChild(board);
 }
 
+// Create the player board
 function playerBoard() {
 	const board = document.createElement("div");
 	board.classList.add("player");
@@ -69,6 +72,7 @@ function playerBoard() {
 	document.querySelector("div.board").appendChild(board);
 }
 
+// Create the enemy board
 function enemyBoard() {
 	const board = document.createElement("div");
 	board.classList.add("enemy");
@@ -84,6 +88,7 @@ function enemyBoard() {
 	document.querySelector("div.board").appendChild(board);
 }
 
+// Return the board grid
 function returnBoardGrid(enemy) {
 	let boardGrid;
 	if (enemy) {
@@ -94,6 +99,7 @@ function returnBoardGrid(enemy) {
 	return boardGrid;
 }
 
+// Draw the board
 function drawBoard(board, isEnemy = false) {
 	const boardGrid = returnBoardGrid(isEnemy);
 	boardGrid.innerHTML = "";
@@ -113,18 +119,21 @@ function drawBoard(board, isEnemy = false) {
 	}
 }
 
+// add miss class to the cell
 function miss(x, y, enemy) {
 	const boardGrid = returnBoardGrid(enemy);
 	const cell = boardGrid.children[y * 10 + x];
 	cell.classList.add("miss");
 }
 
+// add hit class to the cell
 function hit(x, y, enemy) {
 	const boardGrid = returnBoardGrid(enemy);
 	const cell = boardGrid.children[y * 10 + x];
 	cell.classList.add("hit");
 }
 
+// update the board after an attack
 function updateBoard(x, y, result, enemy) {
 	if (result === "miss") {
 		miss(x, y, enemy);
@@ -133,10 +142,11 @@ function updateBoard(x, y, result, enemy) {
 	}
 }
 
+// shows the start page
 function startPage() {
 	const main = document.querySelector("div.main-content");
-	main.innerHTML = "";
-	turn();
+	main.innerHTML = ""; // clear the main content
+	turn(); // create the turn indicator
 	const turnText = document.querySelector("div.turn-indicator p");
 	turnText.textContent = "Place your ships by clicking on the board below";
 
@@ -163,25 +173,29 @@ function startPage() {
 	}
 }
 
+// load the game
 function loadGame() {
 	const main = document.querySelector("div.main-content");
 	main.innerHTML = "";
-	turn();
-	createBoard();
-	playerBoard();
-	enemyBoard();
+	turn(); // create the turn indicator
+	createBoard(); // create the board container
+	playerBoard(); // create the player board
+	enemyBoard(); // create the enemy board
 }
 
+// update the turn indicator text
 function updateTurn(isTurn) {
 	const turnText = document.querySelector("div.turn-indicator p");
 	turnText.textContent = isTurn ? "Your Turn" : "Computer's Turn";
 }
 
+// show the winner
 function winner(player) {
 	const turnText = document.querySelector("div.turn-indicator p");
 	turnText.textContent = `${player} won!`;
 }
 
+// hide the play again popup
 function hidePopup() {
 	document.getElementById("playAgainPopup").style.display = "none";
 }
@@ -224,6 +238,7 @@ const createFooter = () => {
 	document.querySelector("div#content").appendChild(footer);
 };
 
+// Create the page
 function page() {
 	header();
 	mainContent();
@@ -231,12 +246,13 @@ function page() {
 	createFooter();
 }
 
+// show the play again popup
 function showPopup() {
 	document.getElementById("playAgainPopup").style.display = "block";
 }
 
-export default page;
 export {
+	page,
 	drawBoard,
 	updateBoard,
 	updateTurn,

@@ -45,26 +45,26 @@ div#content {
 }
 
 .cell.overlap {
-	background-color: red; /* Color indicating invalid placement due to overlap */
-	cursor: not-allowed; /* Blocked cursor */
+	background-color: red;
+	cursor: not-allowed;
 }
 
 .header h1 {
-	text-align: center; /* Center the header text */
-	font-family: "Arial", sans-serif; /* Use a modern, clean font */
-	font-size: 39px; /* Set a large font size for impact */
-	color: #ffffff87; /* White color for the text for better contrast */
-	background-color: #19211a; /* Navy blue background */
-	padding: 20px; /* Add some padding around the text */
-	text-transform: uppercase; /* Make all letters uppercase for more impact */
-	letter-spacing: 2px; /* Increase spacing between letters */
-	margin: 0px; /* Add some space below the header */
+	text-align: center;
+	font-family: "Arial", sans-serif;
+	font-size: 39px;
+	color: #ffffff87;
+	background-color: #19211a;
+	padding: 20px;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	margin: 0px;
 	text-shadow: 2px 2px 2px #737373;
 }
 
 .header h1:hover {
-	color: #849177; /* Change text color on hover */
-	cursor: pointer; /* Change the cursor to indicate it's clickable */
+	color: #849177;
+	cursor: pointer;
 }
 
 .icon {
@@ -76,7 +76,6 @@ div#content {
 	width: 60%;
 	height: 100%;
 	border-radius: 1rem;
-	/* background-color: #ffffff87; */
 	padding: 0.5rem;
 	text-align: center;
 	background: #ffffff87;
@@ -98,14 +97,14 @@ div#content {
 	font-size: 1.5rem;
 	font-weight: bold;
 	color: #19211a;
-	font-family: "Arial", sans-serif; /* Use a modern, clean font */
-	text-transform: uppercase; /* Make all letters uppercase for more impact */
-	letter-spacing: 2px; /* Increase spacing between letters */
-	margin-bottom: 30px; /* Add some space below the header */
+	font-family: "Arial", sans-serif;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	margin-bottom: 30px;
 	text-shadow: 4px 3px 0px #65715973;
 	margin: 0;
 	transition: opacity 0.5s ease-in-out;
-	opacity: 1; /* Start fully visible */
+	opacity: 1;
 }
 
 .rotate-container {
@@ -131,8 +130,8 @@ div#content {
 
 #playAgainButton:hover,
 .rotate-button:hover {
-	background-color: #2c7235; /* Background color on hover */
-	color: #ffffff87; /* Text color on hover */
+	background-color: #2c7235;
+	color: #ffffff87;
 }
 
 .board {
@@ -145,22 +144,26 @@ div#content {
 	align-content: center;
 }
 
+.cell {
+	cursor: pointer;
+}
+
 .cell.highlight {
 	background-color: lightblue;
 }
 
-.cell.blocked {
-	background-color: red; /* Color indicating invalid placement */
-	cursor: not-allowed; /* Blocked cursor */
+div.cell.blocked {
+	background-color: red;
+	cursor: not-allowed;
 }
 
 .cell-with-ship {
-	background-color: #4caf50; /* Example color, adjust as needed */
-	border: 1px solid #ffffff87; /* Example border, adjust as needed */
+	background-color: #4caf50;
+	border: 1px solid #ffffff87;
 }
 
 div.board-grid .cell.cell-with-ship {
-	border: 3px ridge #a42514; /* Example border, adjust as needed */
+	border: 1px solid #ffffff87;
 }
 
 .board h2 {
@@ -212,10 +215,6 @@ div.board-grid .cell {
 div.cell.hit {
 	background-color: #00ff1e87;
 	border: 1px solid #00ff1e87;
-}
-
-.sunk {
-	background-color: #ff00ee87;
 }
 
 .popup {

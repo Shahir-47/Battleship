@@ -4,8 +4,8 @@ function createShip(length) {
 	if (length % 1 !== 0) throw new Error("length must be an integer");
 	if (length > 5) throw new Error("length must be less than 6");
 
-	let numHits = 0;
-	let sunk = false;
+	let numHits = 0; // number of hits on the ship
+	let sunk = false; // whether the ship is sunk
 
 	return {
 		get length() {

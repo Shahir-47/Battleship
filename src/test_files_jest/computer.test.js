@@ -1,54 +1,84 @@
 import computer from "../computer";
-import gameBoard from "../gameBoard";
 import createShip from "../ship";
-import player from "../player";
 
-describe("computer", () => {
-	let comp;
+jest.mock("../ship"); // Mock the createShip function
+
+describe("computer module", () => {
+	let testComputer;
 	let mockPlayer;
 
 	beforeEach(() => {
-		comp = computer();
-		// Setup a mock player with a basic receiveAttack function
+		testComputer = computer();
+
+		// Mock player object with a hitBoard for tracking hits
 		mockPlayer = {
-			board: Array.from({ length: 10 }, () => Array.from({ length: 10 })),
-			receiveAttack: jest.fn((x, y) => {
-				if (!mockPlayer.board[x][y]) {
-					mockPlayer.board[x][y] = "miss";
-					return "miss";
-				}
-				// Assume a hit for simplicity
-				return "hit";
-			}),
-			placeShip: jest.fn(createShip),
+			receiveAttack: jest.fn(),
+			hitBoard: Array.from({ length: 10 }, () => Array(10).fill(undefined)),
 		};
-		comp.placeShipsAutomatically();
+
+		// Mock the createShip function to return a simple mock ship
+		createShip.mockImplementation((length) => ({
+			length,
+			numHits: 0,
+			hit() {
+				this.numHits++;
+				if (this.numHits === length) {
+					this.sunk = true;
+				}
+			},
+			sunk: false,
+		}));
 	});
 
-	test("computer should place ships automatically", () => {
-		// Assuming that ship placement modifies the board
+	test("should place ships automatically on the board", () => {
+		testComputer.placeShipsAutomatically();
 		expect(
-			comp.compBoard.board.some((row) => row.some((cell) => cell)),
+			testComputer.compBoard.board.some((row) => row.some((cell) => cell)),
 		).toBeTruthy();
 	});
 
-	test("computer should make a valid attack", () => {
-		const result = comp.attack(mockPlayer);
-		expect(["hit", "miss"]).toContain(result);
+	test("random attack generates valid coordinates", () => {
+		const { x, y } = testComputer.randomAttack(mockPlayer);
+		expect(x).toBeGreaterThanOrEqual(0);
+		expect(x).toBeLessThan(10);
+		expect(y).toBeGreaterThanOrEqual(0);
+		expect(y).toBeLessThan(10);
+	});
+
+	test("receiveAttack marks hit or miss correctly", () => {
+		// Place a mock ship at a specific location
+		const mockShip = createShip(3);
+		testComputer.compBoard.board[0][0] = mockShip;
+
+		// Attack the location with the ship
+		let result = testComputer.receiveAttack(0, 0);
+		expect(result).toBe("hit");
+		expect(mockShip.numHits).toBe(1);
+
+		// Attack the same ship again
+		result = testComputer.receiveAttack(0, 0);
+		expect(result).toBe("hit"); // Still not sunk
+		expect(mockShip.numHits).toBe(2);
+
+		// Final hit to sink the ship
+		result = testComputer.receiveAttack(0, 0);
+		expect(result).toBe("sunk");
+		expect(mockShip.numHits).toBe(3);
+		expect(mockShip.sunk).toBeTruthy();
+
+		// Attack an empty location
+		result = testComputer.receiveAttack(1, 1);
+		expect(result).toBe("miss");
+	});
+
+	test("attack function should call receiveAttack on player", () => {
+		testComputer.attack(mockPlayer);
 		expect(mockPlayer.receiveAttack).toHaveBeenCalled();
 	});
 
-	test("computer should switch to target mode after a hit", () => {
-		jest.spyOn(comp, "chooseAttack").mockImplementation(() => ({ x: 0, y: 0 }));
-		mockPlayer.receiveAttack.mockReturnValueOnce("hit");
-		comp.attack(mockPlayer);
-		expect(comp.isTurn).toBe(false); // Assuming isTurn changes after attack
-	});
-
-	test("computer should report loss correctly", () => {
-		comp.compBoard.board.forEach((row) =>
-			row.fill({ hit: jest.fn(), sunk: true }),
-		);
-		expect(comp.hasLost()).toBe(true);
+	test("hasLost should return true if all ships are sunk", () => {
+		// Mock situation where all ships are sunk
+		testComputer.compBoard.board.forEach((row) => row.fill({ sunk: true }));
+		expect(testComputer.hasLost()).toBeTruthy();
 	});
 });
