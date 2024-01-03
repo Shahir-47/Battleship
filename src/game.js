@@ -58,25 +58,27 @@ function gameTime(userParam, compParam, gameActiveParam) {
 			updateTurn(user.isTurn); // update the turn indicator text
 
 			// computer's attack
-			const {
-				x: compX,
-				y: compY,
-				attackResult: compResult,
-			} = comp.attack(user);
-			updateBoard(compX, compY, compResult, false);
+			setTimeout(() => {
+				const {
+					x: compX,
+					y: compY,
+					attackResult: compResult,
+				} = comp.attack(user);
+				updateBoard(compX, compY, compResult, false);
 
-			// if the user has lost, end the game and show the popup
-			if (user.hasLost()) {
-				gameActive = false; // game is no longer active
-				winner("comp"); // computer won
-				showPopup(); // show the play again popup
-				return;
-			}
+				// if the user has lost, end the game and show the popup
+				if (user.hasLost()) {
+					gameActive = false; // game is no longer active
+					winner("comp"); // computer won
+					showPopup(); // show the play again popup
+					return;
+				}
 
-			// user's turn
-			user.isTurn = true;
-			comp.isTurn = false;
-			updateTurn(user.isTurn); // update the turn indicator text
+				// user's turn
+				user.isTurn = true;
+				comp.isTurn = false;
+				updateTurn(user.isTurn); // update the turn indicator text
+			}, 1000);
 		});
 	});
 }
